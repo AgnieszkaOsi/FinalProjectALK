@@ -1,15 +1,11 @@
 package tests;
 
 import com.github.javafaker.Faker;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
 import org.testng.annotations.*;
+import tests.model.*;
 
-import java.time.Duration;
 import java.util.Locale;
 
 public class CartTests {
@@ -22,19 +18,18 @@ public class CartTests {
         driver.get("https://fakestore.testelka.pl");
         driver.manage().window().maximize();
         faker = new Faker(Locale.CANADA);
-        registerUser();
     }
 
-    private void registerUser() {
-        driver.findElement(By.cssSelector("#menu-item-201")).click();
+    private HomePage registerUser() {
         String email = faker.internet().emailAddress();
         String password = faker.internet().password(12, 14);
-        driver.findElement(By.xpath("//a[@href='#']")).click();
-        driver.findElement(By.id("reg_email")).sendKeys(email);
-        driver.findElement(By.id("reg_password")).sendKeys(password);
-        driver.findElement(By.name("register")).click();
-        new WebDriverWait(driver, Duration.ofSeconds(3)).until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#post-8 > div > div > div > p:nth-child(2)")));
-        driver.findElement(By.xpath("//a[@href='https://fakestore.testelka.pl']")).click();
+
+        HomePage homePage = new HomePage(driver);
+        LoginPage loginPage = homePage.goToMyAccount();
+        MyAccountPage myAccountPage = loginPage.registerUser(email, password);
+
+        homePage = myAccountPage.goToHomePage();
+        return homePage;
     }
 
     @AfterClass
@@ -45,50 +40,47 @@ public class CartTests {
     @Test(testName = "Addind first item to the cart.")
     public void addingFirstItemToTheCart() {
         // given
+        HomePage homePage = registerUser();
+
         // when
-        driver.findElement(By.xpath("//a[@aria-label='Przejdź do kategorii produktu Windsurfing']")).click();
-        driver.findElement(By.xpath("//a[@href='?add-to-cart=389']")).click();
-        new WebDriverWait(driver, Duration.ofSeconds(3)).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@title='Zobacz koszyk']")));
-        driver.findElement(By.xpath("//a[@title='Zobacz koszyk']")).click();
+        WindsurfingCategoryPage windsurfingCategoryPage = homePage.goToWindsurfingCategory();
+        windsurfingCategoryPage.addToCart();
 
         //then
-        new WebDriverWait(driver, Duration.ofSeconds(3)).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//a[@href='https://fakestore.testelka.pl/product/wyspy-zielonego-przyladka-sal/'])[2]")));
-        var confirmationFirst = driver.findElement(By.xpath("(//a[@href='https://fakestore.testelka.pl/product/wyspy-zielonego-przyladka-sal/'])[2]"));
-        Assert.assertTrue(confirmationFirst.getText().startsWith("Wyspy"));
+        CartPage cartPage = windsurfingCategoryPage.goToCart();
+        cartPage.assertThatIslandsAreInTheCart();
     }
 
 
     @Test(testName = "Addind second item to the cart.")
     public void addingSecondItemToTheCart() {
-        //given //when
-        driver.findElement(By.xpath("//a[@href='https://fakestore.testelka.pl']")).click();
-        driver.findElement(By.xpath("//a[@aria-label='Przejdź do kategorii produktu Wspinaczka']")).click();
-        driver.findElement(By.xpath("//a[@href='?add-to-cart=40']")).click();
-        new WebDriverWait(driver, Duration.ofSeconds(3)).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@title='Zobacz koszyk']")));
-        driver.findElement(By.xpath("//a[@title='Zobacz koszyk']")).click();
+        //given
+        driver.get("https://fakestore.testelka.pl");
+        HomePage homePage = new HomePage(driver);
+
+        // when
+        ClimbingCategoryPage climbingCategoryPage = homePage.goToClimbingCategory();
+        climbingCategoryPage.addToCart();
 
         //then
-        var confirmationSecond = driver.findElement(By.xpath("(//a[@href='https://fakestore.testelka.pl/product/wspinaczka-via-ferraty/'])[2]"));
-        new WebDriverWait(driver, Duration.ofSeconds(3)).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//a[@href='https://fakestore.testelka.pl/product/wspinaczka-via-ferraty/'])[2]")));
-        Assert.assertTrue(confirmationSecond.getText().startsWith("Wspinaczka"));
-
-        new WebDriverWait(driver, Duration.ofSeconds(3)).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//a[@href='https://fakestore.testelka.pl/product/wyspy-zielonego-przyladka-sal/'])[2]")));
-        var confirmationFirst = driver.findElement(By.xpath("(//a[@href='https://fakestore.testelka.pl/product/wyspy-zielonego-przyladka-sal/'])[2]"));
-        Assert.assertTrue(confirmationFirst.getText().startsWith("Wyspy"));
+        CartPage cartPage = climbingCategoryPage.goToCart();
+        cartPage.assertThatIslandsAreInTheCart();
+        cartPage.asserThatClimbingIsInTheCart();
     }
 
 
     @Test(testName = "Delete product from the cart")
     public void deleteProductFromTheCart() {
-        driver.findElement(By.id("menu-item-197")).click();
-        driver.findElement(By.xpath("//a[@aria-label='Przejdź do kategorii produktu Windsurfing']")).click();
-        driver.findElement(By.xpath("//a[@href='?add-to-cart=389']")).click();
-        new WebDriverWait(driver, Duration.ofSeconds(3)).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@title='Zobacz koszyk']")));
-        driver.findElement(By.xpath("//a[@title='Zobacz koszyk']")).click();
+        //given
+        driver.get("https://fakestore.testelka.pl");
+        HomePage homePage = new HomePage(driver);
+
+        //when
+        CartPage cartPage = homePage.goToCart();
+        cartPage.deleteIslandItemFromTheCart();
 
         //then
-        new WebDriverWait(driver, Duration.ofSeconds(3)).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//a[@href='https://fakestore.testelka.pl/product/wyspy-zielonego-przyladka-sal/'])[2]")));
-        var confirmationFirst = driver.findElement(By.xpath("(//a[@href='https://fakestore.testelka.pl/product/wyspy-zielonego-przyladka-sal/'])[2]"));
-        Assert.assertTrue(confirmationFirst.getText().startsWith("Wyspy"));
+        cartPage.asserThatClimbingIsInTheCart();
+        cartPage.assertThatIslandsAreNotInTheCart();
     }
 }

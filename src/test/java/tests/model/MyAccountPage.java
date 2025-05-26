@@ -23,4 +23,10 @@ public class MyAccountPage {
 
         return new LoginPage(driver);
     }
+
+    public HomePage goToHomePage() {
+        driver.findElement(By.xpath("//a[@href='https://fakestore.testelka.pl']")).click();
+
+        return new HomePage(driver);
+    }
 }
