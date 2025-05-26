@@ -17,4 +17,10 @@ public class MyAccountPage {
         Assert.assertTrue(confirmation.getText().startsWith("Witaj"));
         Assert.assertTrue(confirmation.getText().contains(expectedUsername));
     }
+
+    public LoginPage logOut() {
+        driver.findElement(By.cssSelector("#post-8 > div > div > div > p:nth-child(2) > a")).click();
+
+        return new LoginPage(driver);
+    }
 }

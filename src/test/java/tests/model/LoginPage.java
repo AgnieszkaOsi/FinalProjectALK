@@ -52,4 +52,14 @@ public class LoginPage {
         var error = driver.findElement(By.id("password_strength"));
         Assert.assertTrue(error.getText().contains("Proszę wpisać mocniejsze hasło"));
     }
+
+    public void assertThatLoginIsVisible() {
+        var confirmationFirst = driver.findElement(By.cssSelector("[class='u-column1 col-1']"));
+        Assert.assertTrue(confirmationFirst.getText().startsWith("Zaloguj się"));
+    }
+
+    public void assertThatRegisterIsVisible() {
+        var confirmationSecond = driver.findElement(By.cssSelector("[class='u-column2 col-2']"));
+        Assert.assertTrue(confirmationSecond.getText().startsWith("Zarejestruj się"));
+    }
 }
