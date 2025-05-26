@@ -13,7 +13,7 @@ import org.testng.annotations.Test;
 
 import java.time.Duration;
 
-public class SearchingProduct {
+public class SearchingProductTests {
     private WebDriver driver;
 
     @BeforeMethod

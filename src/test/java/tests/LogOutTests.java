@@ -14,7 +14,7 @@ import org.testng.annotations.Test;
 import java.time.Duration;
 import java.util.Locale;
 
-public class LogOut {
+public class LogOutTests {
     private WebDriver driver;
     private Faker faker;
 
