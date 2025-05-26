@@ -1,6 +1,7 @@
 package tests.model;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -36,5 +37,19 @@ public class HomePage {
         new WebDriverWait(driver, Duration.ofSeconds(3)).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//a[@href='https://fakestore.testelka.pl/product/wyspy-zielonego-przyladka-sal/'])[2]")));
 
         return new CartPage(driver);
+    }
+
+    public SearchResultPage findProduct(String productToSearch) {
+        driver.findElement(By.cssSelector("[class='search-field']")).sendKeys(productToSearch);
+        driver.findElement(By.cssSelector("[class='search-field']")).sendKeys(Keys.ENTER);
+        new WebDriverWait(driver, Duration.ofSeconds(5)).until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[href='#']")));
+        driver.findElement(By.cssSelector("[href='#']")).click();
+
+        return new SearchResultPage(driver);
+    }
+
+    public ShopPage goToShop() {
+        driver.findElement(By.cssSelector("#menu-item-198 > a")).click();
+        return new ShopPage(driver);
     }
 }

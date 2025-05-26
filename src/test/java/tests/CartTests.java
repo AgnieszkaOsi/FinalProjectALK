@@ -26,6 +26,7 @@ public class CartTests {
 
         HomePage homePage = new HomePage(driver);
         LoginPage loginPage = homePage.goToMyAccount();
+        loginPage.closeBanner();
         MyAccountPage myAccountPage = loginPage.registerUser(email, password);
 
         homePage = myAccountPage.goToHomePage();
@@ -34,7 +35,7 @@ public class CartTests {
 
     @AfterClass
     public void cleanUp() {
-        //driver.quit();
+        driver.quit();
     }
 
     @Test(testName = "Addind first item to the cart.")

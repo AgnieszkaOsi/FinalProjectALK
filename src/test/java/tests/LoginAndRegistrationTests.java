@@ -37,7 +37,7 @@ public class LoginAndRegistrationTests {
         LoginPage loginPage = homePage.goToMyAccount();
 
         //when
-        loginPage.loginUser(notExistingUsername, password);
+        loginPage.loginUserWithError(notExistingUsername, password);
 
         //then
         loginPage.assertThatThereIsAnError(notExistingUsername);
@@ -53,6 +53,7 @@ public class LoginAndRegistrationTests {
 
         HomePage homePage = new HomePage(driver);
         LoginPage loginPage = homePage.goToMyAccount();
+        loginPage.closeBanner();
 
         //when
         MyAccountPage myAccountPage = loginPage.registerUser(email, password);
@@ -76,5 +77,24 @@ public class LoginAndRegistrationTests {
 
         //then
        loginPage.assertThatPasswordIsTooWeak();
+    }
+
+    @Test(testName = "New user registration fails when user is already registered")
+    public void newUserRegistrationFailsWhenUserIsAlreadyRegistered() throws InterruptedException {
+        //given
+        String email = faker.internet().emailAddress();
+        String password = faker.internet().password(12, 14);
+
+        HomePage homePage = new HomePage(driver);
+        LoginPage loginPage = homePage.goToMyAccount();
+        loginPage.closeBanner();
+        MyAccountPage myAccountPage = loginPage.registerUser(email, password);
+        loginPage = myAccountPage.logOut();
+
+        //when
+        loginPage.registerDuplicateUser(email, password);
+
+        //then
+        loginPage.assertThatRegistrationFails();
     }
 }

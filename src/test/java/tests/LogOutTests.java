@@ -3,6 +3,8 @@ package tests;
 import com.github.javafaker.Faker;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -13,6 +15,7 @@ import tests.model.MyAccountPage;
 import java.util.Locale;
 
 public class LogOutTests {
+    private static final Logger log = LoggerFactory.getLogger(LogOutTests.class);
     private WebDriver driver;
     private Faker faker;
 
@@ -30,13 +33,14 @@ public class LogOutTests {
     }
 
     @Test(testName = "Log out user")
-    public void logOutUser() {
+    public void logOutUser() throws InterruptedException {
         //given
         String email = faker.internet().emailAddress();
         String password = faker.internet().password(12, 14);
 
         HomePage homePage = new HomePage(driver);
         LoginPage loginPage = homePage.goToMyAccount();
+        loginPage.closeBanner();
         MyAccountPage myAccountPage = loginPage.registerUser(email, password);
 
         //when
@@ -45,5 +49,25 @@ public class LogOutTests {
         //then
         loginPage.assertThatLoginIsVisible();
         loginPage.assertThatRegisterIsVisible();
+    }
+
+    @Test(testName = "User can log in after log out")
+    public void userCanLoginAfterLogOut() throws InterruptedException {
+        //given
+        String email = faker.internet().emailAddress();
+        String password = faker.internet().password(12, 14);
+        String expectedUsername = email.substring(0, email.indexOf("@"));
+
+        HomePage homePage = new HomePage(driver);
+        LoginPage loginPage = homePage.goToMyAccount();
+        loginPage.closeBanner();
+        MyAccountPage myAccountPage = loginPage.registerUser(email, password);
+        loginPage = myAccountPage.logOut();
+
+        //when
+        myAccountPage = loginPage.loginUser(email, password);
+
+        //then
+        myAccountPage.assertThatConfirmationIsVisible(expectedUsername);
     }
 }

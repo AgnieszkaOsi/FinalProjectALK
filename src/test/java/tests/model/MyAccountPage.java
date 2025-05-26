@@ -18,8 +18,9 @@ public class MyAccountPage {
         Assert.assertTrue(confirmation.getText().contains(expectedUsername));
     }
 
-    public LoginPage logOut() {
+    public LoginPage logOut() throws InterruptedException {
         driver.findElement(By.cssSelector("#post-8 > div > div > div > p:nth-child(2) > a")).click();
+        Thread.sleep(1000);
 
         return new LoginPage(driver);
     }
