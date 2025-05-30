@@ -6,6 +6,7 @@ import org.testng.Assert;
 
 public class ShopPage {
     private WebDriver driver;
+    private static final By WINDSURFING_IMAGE = By.xpath("//a[@aria-label='Przejdź do kategorii produktu Windsurfing']");
 
     public ShopPage(WebDriver webDriver) {
         driver = webDriver;
@@ -13,7 +14,7 @@ public class ShopPage {
     }
 
     public WindsurfingCategoryPage goToWindsurfingPage() {
-        driver.findElement(By.xpath("//a[@aria-label='Przejdź do kategorii produktu Windsurfing']")).click();
+        driver.findElement(WINDSURFING_IMAGE).click();
         return new WindsurfingCategoryPage(driver);
     }
 }

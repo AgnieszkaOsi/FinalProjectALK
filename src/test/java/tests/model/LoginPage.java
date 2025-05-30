@@ -23,11 +23,6 @@ public class LoginPage {
     private static final By ERROR_TOO_WEAK_PASSWORD = By.id("password_strength");
     private static final By ERROR_ACCOUNT_EXIST = By.className("woocommerce-error");
 
-
-
-
-
-
     public LoginPage(WebDriver webDriver) {
         driver = webDriver;
         Assert.assertTrue(driver.findElement(MY_ACOUNT_HEADER).getText().contains("Moje konto"));

@@ -16,6 +16,9 @@ public class HomePage {
     private static final By CLIMBING_CATEGORY_PAGE = By.xpath("//a[@aria-label='Przejdź do kategorii produktu Wspinaczka']");
     private static final By CART_BUTTON = By.id("menu-item-200");
     private static final By GREEN_ISLANDS_PRODUCT_NAME = By.xpath("(//a[@href='https://fakestore.testelka.pl/product/wyspy-zielonego-przyladka-sal/'])[2]");
+    private static final By TEXTBOX_FINDER = By.cssSelector("[class='search-field']");
+    private static final By BLUE_BANNER = By.cssSelector("[href='#']");
+    private static final By SHOP_BUTTON = By.cssSelector("#menu-item-198 > a");
 
     private WebDriver driver;
 
@@ -47,16 +50,16 @@ public class HomePage {
     }
 
     public SearchResultPage findProduct(String productToSearch) {
-        driver.findElement(By.cssSelector("[class='search-field']")).sendKeys(productToSearch);
-        driver.findElement(By.cssSelector("[class='search-field']")).sendKeys(Keys.ENTER);
-        new WebDriverWait(driver, Duration.ofSeconds(5)).until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[href='#']")));
-        driver.findElement(By.cssSelector("[href='#']")).click();
+        driver.findElement(TEXTBOX_FINDER).sendKeys(productToSearch);
+        driver.findElement(TEXTBOX_FINDER).sendKeys(Keys.ENTER);
+        new WebDriverWait(driver, Duration.ofSeconds(5)).until(ExpectedConditions.visibilityOfElementLocated(BLUE_BANNER));
+        driver.findElement(BLUE_BANNER).click();
 
         return new SearchResultPage(driver);
     }
 
     public ShopPage goToShop() {
-        driver.findElement(By.cssSelector("#menu-item-198 > a")).click();
+        driver.findElement(SHOP_BUTTON).click();
         return new ShopPage(driver);
     }
 }

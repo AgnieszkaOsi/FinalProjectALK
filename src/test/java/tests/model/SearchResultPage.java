@@ -10,6 +10,9 @@ import java.time.Duration;
 
 public class SearchResultPage {
     private WebDriver driver;
+    private static final By YOGA_AND_PILATES_IN_SPAIN_IMAGE = By.xpath("(//h2[@class='woocommerce-loop-product__title'])[1]");
+
+
 
     public SearchResultPage(WebDriver webDriver) {
         driver = webDriver;
@@ -17,8 +20,8 @@ public class SearchResultPage {
     }
 
     public YogaAndPilatesDetailsPage goToYogaAndPilatesDetails() {
-        new WebDriverWait(driver, Duration.ofSeconds(5)).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//h2[@class='woocommerce-loop-product__title'])[1]")));
-        driver.findElement(By.xpath("(//h2[@class='woocommerce-loop-product__title'])[1]")).click();
+        new WebDriverWait(driver, Duration.ofSeconds(5)).until(ExpectedConditions.visibilityOfElementLocated(YOGA_AND_PILATES_IN_SPAIN_IMAGE));
+        driver.findElement(YOGA_AND_PILATES_IN_SPAIN_IMAGE).click();
 
         return new YogaAndPilatesDetailsPage(driver);
     }
