@@ -35,7 +35,7 @@ public class CartTests {
 
     @AfterClass
     public void cleanUp() {
-        //driver.quit();
+        driver.quit();
     }
 
     @Test(testName = "Addind first item to the cart.")

@@ -12,7 +12,7 @@ public class CartPage {
     private static final By GREEN_ISLANDS_PRODUCT_NAME = By.xpath("(//a[@href='https://fakestore.testelka.pl/product/wyspy-zielonego-przyladka-sal/'])[2]");
     private static final By FERRATY_PRODUCT_NAME = By.xpath("(//a[@href='https://fakestore.testelka.pl/product/wspinaczka-via-ferraty/'])[2]");
     private static final By DELETED_ISLANDS_BUTTON = By.cssSelector("[aria-label='Usuń Wyspy Zielonego Przylądka - Sal z koszyka']");
-    private static final By ISLANDS_ARE_NOT_CONFIRMATION = By.className("woocommerce-message");
+    private static final By ISLANDS_REMOVED_CONFIRMATION = By.className("woocommerce-message");
 
     private WebDriver driver;
 
@@ -36,8 +36,8 @@ public class CartPage {
     }
 
     public void assertThatIslandsAreNotInTheCart() {
-        new WebDriverWait(driver, Duration.ofSeconds(5)).until(ExpectedConditions.visibilityOfElementLocated(ISLANDS_ARE_NOT_CONFIRMATION));
-        var confirmation = driver.findElement(ISLANDS_ARE_NOT_CONFIRMATION);
+        new WebDriverWait(driver, Duration.ofSeconds(5)).until(ExpectedConditions.visibilityOfElementLocated(ISLANDS_REMOVED_CONFIRMATION));
+        var confirmation = driver.findElement(ISLANDS_REMOVED_CONFIRMATION);
         Assert.assertTrue(confirmation.getText().contains("Wyspy"));
         Assert.assertTrue(confirmation.getText().startsWith("Usunięto"));
     }
