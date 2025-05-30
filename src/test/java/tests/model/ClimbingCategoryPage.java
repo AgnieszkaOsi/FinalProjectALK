@@ -29,7 +29,7 @@ public class ClimbingCategoryPage {
     }
 
     public CartPage goToCart() {
-        driver.findElement(By.xpath("//a[@title='Zobacz koszyk']")).click();
+        driver.findElement(SEE_CART_BUTTON).click();
         new WebDriverWait(driver, Duration.ofSeconds(3)).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//a[@href='https://fakestore.testelka.pl/product/wspinaczka-via-ferraty/'])[2]")));
         return new CartPage(driver);
     }
