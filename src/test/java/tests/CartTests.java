@@ -35,7 +35,7 @@ public class CartTests {
 
     @AfterClass
     public void cleanUp() {
-        driver.quit();
+        //driver.quit();
     }
 
     @Test(testName = "Addind first item to the cart.")
@@ -51,7 +51,6 @@ public class CartTests {
         CartPage cartPage = windsurfingCategoryPage.goToCart();
         cartPage.assertThatIslandsAreInTheCart();
     }
-
 
     @Test(testName = "Addind second item to the cart.")
     public void addingSecondItemToTheCart() {
