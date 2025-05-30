@@ -5,11 +5,14 @@ import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 
 public class MyAccountPage {
+    private static final By MY_ACCOUNT_HEADER = By.className("entry-title");
+    private static final By MAIN_PAGE_BUTTON = By.xpath("//a[@href='https://fakestore.testelka.pl']");
+
     private WebDriver driver;
 
     public MyAccountPage(WebDriver webDriver) {
         driver = webDriver;
-        Assert.assertTrue(driver.findElement(By.className("entry-title")).getText().contains("Moje konto"));
+        Assert.assertTrue(driver.findElement(MY_ACCOUNT_HEADER).getText().contains("Moje konto"));
     }
 
     public void assertThatConfirmationIsVisible(String expectedUsername) {
@@ -26,7 +29,7 @@ public class MyAccountPage {
     }
 
     public HomePage goToHomePage() {
-        driver.findElement(By.xpath("//a[@href='https://fakestore.testelka.pl']")).click();
+        driver.findElement(MAIN_PAGE_BUTTON).click();
 
         return new HomePage(driver);
     }

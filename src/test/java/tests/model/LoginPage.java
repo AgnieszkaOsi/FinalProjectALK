@@ -10,10 +10,18 @@ import java.time.Duration;
 
 public class LoginPage {
     private WebDriver driver;
+    private static final By MY_ACOUNT_HEADER = By.className("entry-title");
+    private static final By BLUE_BANNER = By.xpath("//a[@href='#']");
+    private static final By REGISTRATION_EMAIL_TEXTBOX = By.id("reg_email");
+    private static final By REGISTRATION_PASSWORD_TEXTBOX = By.id("reg_password");
+    private static final By REGISTRATION_BUTTON = By.name("register");
+    private static final By WELCOME_TEXT = By.cssSelector("#post-8 > div > div > div > p:nth-child(2)");
+
+
 
     public LoginPage(WebDriver webDriver) {
         driver = webDriver;
-        Assert.assertTrue(driver.findElement(By.className("entry-title")).getText().contains("Moje konto"));
+        Assert.assertTrue(driver.findElement(MY_ACOUNT_HEADER).getText().contains("Moje konto"));
     }
 
     public void loginUserWithError(String username, String password) {
@@ -40,29 +48,29 @@ public class LoginPage {
     }
 
     public void closeBanner() {
-        driver.findElement(By.xpath("//a[@href='#']")).click();
+        driver.findElement(BLUE_BANNER).click();
     }
 
     public MyAccountPage registerUser(String email, String password) {
-        driver.findElement(By.id("reg_email")).sendKeys(email);
-        driver.findElement(By.id("reg_password")).sendKeys(password);
-        driver.findElement(By.name("register")).click();
-        new WebDriverWait(driver, Duration.ofSeconds(3)).until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#post-8 > div > div > div > p:nth-child(2)")));
+        driver.findElement(REGISTRATION_EMAIL_TEXTBOX).sendKeys(email);
+        driver.findElement(REGISTRATION_PASSWORD_TEXTBOX).sendKeys(password);
+        driver.findElement(REGISTRATION_BUTTON).click();
+        new WebDriverWait(driver, Duration.ofSeconds(3)).until(ExpectedConditions.visibilityOfElementLocated(WELCOME_TEXT));
 
         return new MyAccountPage(driver);
     }
 
     public void registerDuplicateUser(String email, String password) {
-        driver.findElement(By.id("reg_email")).sendKeys(email);
-        driver.findElement(By.id("reg_password")).sendKeys(password);
-        driver.findElement(By.name("register")).click();
+        driver.findElement(REGISTRATION_EMAIL_TEXTBOX).sendKeys(email);
+        driver.findElement(REGISTRATION_PASSWORD_TEXTBOX).sendKeys(password);
+        driver.findElement(REGISTRATION_BUTTON).click();
     }
 
     public void registerUserWithWrongPassword(String email, String password) throws InterruptedException {
-        driver.findElement(By.id("reg_email")).sendKeys(email);
-        driver.findElement(By.id("reg_password")).sendKeys(password);
+        driver.findElement(REGISTRATION_EMAIL_TEXTBOX).sendKeys(email);
+        driver.findElement(REGISTRATION_PASSWORD_TEXTBOX).sendKeys(password);
         Thread.sleep(500);
-        driver.findElement(By.id("reg_email")).click();
+        driver.findElement(REGISTRATION_EMAIL_TEXTBOX).click();
     }
 
     public void assertThatPasswordIsTooWeak() {

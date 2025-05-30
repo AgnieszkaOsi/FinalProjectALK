@@ -52,7 +52,6 @@ public class CartTests {
         cartPage.assertThatIslandsAreInTheCart();
     }
 
-
     @Test(testName = "Addind second item to the cart.")
     public void addingSecondItemToTheCart() {
         //given

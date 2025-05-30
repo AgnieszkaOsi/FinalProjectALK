@@ -10,19 +10,25 @@ import java.time.Duration;
 
 public class WindsurfingCategoryPage {
     private WebDriver driver;
+    private static final By WINDSURFING_HEADER = By.className("woocommerce-products-header");
+    private static final By ADD_GREEN_ISLANDS_TO_THE_CART_BUTTON = By.xpath("//a[@href='?add-to-cart=389']");
+    private static final By GO_TO_CART_BUTTON = By.xpath("//a[@title='Zobacz koszyk']");
+
+
+
 
     public WindsurfingCategoryPage(WebDriver webDriver) {
         driver = webDriver;
-        Assert.assertTrue(driver.findElement(By.className("woocommerce-products-header")).getText().contains("Windsurfing"));
+        Assert.assertTrue(driver.findElement(WINDSURFING_HEADER).getText().contains("Windsurfing"));
     }
 
     public void addToCart() {
-        driver.findElement(By.xpath("//a[@href='?add-to-cart=389']")).click();
-        new WebDriverWait(driver, Duration.ofSeconds(3)).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@title='Zobacz koszyk']")));
+        driver.findElement(ADD_GREEN_ISLANDS_TO_THE_CART_BUTTON).click();
+        new WebDriverWait(driver, Duration.ofSeconds(3)).until(ExpectedConditions.visibilityOfElementLocated(GO_TO_CART_BUTTON));
     }
 
     public CartPage goToCart() {
-        driver.findElement(By.xpath("//a[@title='Zobacz koszyk']")).click();
+        driver.findElement(GO_TO_CART_BUTTON).click();
         new WebDriverWait(driver, Duration.ofSeconds(3)).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//a[@href='https://fakestore.testelka.pl/product/wyspy-zielonego-przyladka-sal/'])[2]")));
         return new CartPage(driver);
     }
