@@ -45,7 +45,6 @@ public class LoginAndRegistrationTests {
         Assert.assertTrue(loginPage.getLoginErrorInformation().startsWith("Błąd"));
     }
 
-
     @Test(testName = "New user registration")
     public void newUserRegistration() {
         //given
@@ -64,7 +63,6 @@ public class LoginAndRegistrationTests {
         Assert.assertTrue(myAccountPage.getHelloUserText().startsWith("Witaj"));
         Assert.assertTrue(myAccountPage.getHelloUserText().contains(expectedUsername));
     }
-
 
     @Test(testName = "New user registration fails when password is too short")
     public void newUserRegistrationFailsWhenPasswordIsTooShort() {

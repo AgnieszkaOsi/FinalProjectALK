@@ -13,7 +13,6 @@ public class CategoryPage {
     public static final String CLIMBING = "Wspinaczka";
     public static final String WINDSURFING = "Windsurfing";
 
-
     private static final By HEADER = By.className("woocommerce-products-header");
     private static final By ADD_GREEN_ISLANDS_TO_THE_CART_BUTTON = By.xpath("//a[@href='?add-to-cart=389']");
     private static final By GO_TO_CART_BUTTON = By.xpath("//a[@title='Zobacz koszyk']");

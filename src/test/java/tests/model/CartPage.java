@@ -13,6 +13,8 @@ public class CartPage {
     private static final By DELETED_ISLANDS_BUTTON = By.cssSelector("[aria-label='Usuń Wyspy Zielonego Przylądka - Sal z koszyka']");
     private static final By ISLANDS_REMOVED_CONFIRMATION = By.className("woocommerce-message");
     private static final By CART_PAGE_HEADER = By.className("entry-header");
+    private static final By HOME_PAGE = By.xpath("//a[@href='https://fakestore.testelka.pl']");
+    private static final By PAYMENT_PAGE = By.cssSelector("[class='checkout-button button alt wc-forward']");
 
     private WebDriver driver;
 
@@ -43,5 +45,15 @@ public class CartPage {
         new WebDriverWait(driver, Duration.ofSeconds(5)).until(ExpectedConditions.visibilityOfElementLocated(ISLANDS_REMOVED_CONFIRMATION));
         var confirmation = driver.findElement(ISLANDS_REMOVED_CONFIRMATION);
         return confirmation.getText();
+    }
+
+    public HomePage goToHomePage() {
+        driver.findElement(HOME_PAGE).click();
+        return new HomePage(driver);
+    }
+
+    public PaymentPage goToPaymentPage() {
+        driver.findElement(PAYMENT_PAGE).click();
+        return new PaymentPage(driver);
     }
 }

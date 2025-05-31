@@ -8,7 +8,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import tests.model.*;
 
-
 public class SearchingProductTests {
     private WebDriver driver;
 
@@ -29,6 +28,7 @@ public class SearchingProductTests {
         //given
         String productToSearch = "pilates";
         HomePage homePage = new HomePage(driver);
+        homePage.tryToCloseBlueBanner();
 
         //when
         SearchResultPage searchResultPage = homePage.findProduct(productToSearch);
@@ -43,6 +43,7 @@ public class SearchingProductTests {
     public void searchingCheapestProduct() {
         //given
         HomePage homePage = new HomePage(driver);
+        homePage.tryToCloseBlueBanner();
 
         //when
         ShopPage shopPage = homePage.goToShop();

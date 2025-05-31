@@ -69,7 +69,6 @@ public class CartTests {
         Assert.assertTrue(cartPage.getFerratyProductName().startsWith("Wspinaczka"));
     }
 
-
     @Test(testName = "Delete product from the cart")
     public void deleteProductFromTheCart() {
         //given

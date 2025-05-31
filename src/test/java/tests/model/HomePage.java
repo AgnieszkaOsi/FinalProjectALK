@@ -17,7 +17,7 @@ public class HomePage {
     private static final By CART_BUTTON = By.id("menu-item-200");
     private static final By GREEN_ISLANDS_PRODUCT_NAME = By.xpath("(//a[@href='https://fakestore.testelka.pl/product/wyspy-zielonego-przyladka-sal/'])[2]");
     private static final By TEXTBOX_FINDER = By.cssSelector("[class='search-field']");
-    private static final By BLUE_BANNER = By.cssSelector("[href='#']");
+    private static final By BLUE_BANNER = By.className("woocommerce-store-notice__dismiss-link");
     private static final By SHOP_BUTTON = By.cssSelector("#menu-item-198 > a");
 
     private WebDriver driver;
@@ -28,6 +28,15 @@ public class HomePage {
         if (!mainPageHeader.contains("Wybierz podróż dla siebie!")) {
             throw new IllegalStateException("This is not Main Page," +
                     " current page is: " + driver.getCurrentUrl());
+        }
+    }
+
+    public void tryToCloseBlueBanner() {
+        try {
+            new WebDriverWait(driver, Duration.ofSeconds(5)).until(ExpectedConditions.visibilityOfElementLocated(BLUE_BANNER));
+            driver.findElement(BLUE_BANNER).click();
+        } catch (StaleElementReferenceException bannerError) {
+            // ignored because blue banner was already clicked
         }
     }
 
@@ -59,15 +68,6 @@ public class HomePage {
         tryToCloseBlueBanner();
 
         return new SearchResultPage(driver);
-    }
-
-    private void tryToCloseBlueBanner() {
-        try {
-            new WebDriverWait(driver, Duration.ofSeconds(5)).until(ExpectedConditions.visibilityOfElementLocated(BLUE_BANNER));
-            driver.findElement(BLUE_BANNER).click();
-        } catch (StaleElementReferenceException bannerError) {
-            // ignored because blue banner was already clicked
-        }
     }
 
     public ShopPage goToShop() {
