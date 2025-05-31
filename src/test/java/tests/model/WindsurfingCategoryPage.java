@@ -4,7 +4,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
 
 import java.time.Duration;
 
@@ -19,7 +18,11 @@ public class WindsurfingCategoryPage {
 
     public WindsurfingCategoryPage(WebDriver webDriver) {
         driver = webDriver;
-        Assert.assertTrue(driver.findElement(WINDSURFING_HEADER).getText().contains("Windsurfing"));
+        var windsurfingHeader = driver.findElement(WINDSURFING_HEADER).getText();
+        if (!windsurfingHeader.contains("Windsurfing")) {
+            throw new IllegalStateException("This is not Windsurfing Page," +
+                    " current page is: " + driver.getCurrentUrl());
+        }
     }
 
     public void addToCart() {
@@ -38,8 +41,8 @@ public class WindsurfingCategoryPage {
         driver.findElement(SORTING_BY_LOWER_PRICE).click();
     }
 
-    public void assertThatWindsurfingInKarpathosIsFirst() {
-        var confirmation = driver.findElement(WINDSURFING_IN_KARPATHOS_PRODUCT);
-        Assert.assertTrue(confirmation.getText().startsWith("Windsurfing w Karpathos"));
+    public String getWindsurfingInKarpathosProduct() {
+        var windsurfing = driver.findElement(WINDSURFING_IN_KARPATHOS_PRODUCT);
+        return windsurfing.getText();
     }
 }

@@ -2,6 +2,7 @@ package tests;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -34,7 +35,8 @@ public class SearchingProductTests {
         YogaAndPilatesDetailsPage yogaAndPilatesDetailsPage = searchResultPage.goToYogaAndPilatesDetails();
 
         //then
-        yogaAndPilatesDetailsPage.assertThatDescriptionContainsProduct(productToSearch);
+        Assert.assertTrue(yogaAndPilatesDetailsPage.getYogaAndPilatesInSpainDescription().startsWith("Opis\nTake a caulk"));
+        Assert.assertTrue(yogaAndPilatesDetailsPage.getYogaAndPilatesInSpainHeader().contains(productToSearch));
     }
 
     @Test(testName = "Searching cheapest product in category 'Windsurfing'")
@@ -48,6 +50,6 @@ public class SearchingProductTests {
         windsurfingCategoryPage.selectSortingByPrice();
 
         //then
-        windsurfingCategoryPage.assertThatWindsurfingInKarpathosIsFirst();
+        Assert.assertTrue(windsurfingCategoryPage.getWindsurfingInKarpathosProduct().startsWith("Windsurfing w Karpathos"));
     }
 }
