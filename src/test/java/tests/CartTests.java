@@ -27,7 +27,7 @@ public class CartTests {
 
         HomePage homePage = new HomePage(driver);
         LoginPage loginPage = homePage.goToMyAccount();
-        loginPage.closeBanner();
+        loginPage.tryToCloseBlueBanner();
         MyAccountPage myAccountPage = loginPage.registerUser(email, password);
 
         homePage = myAccountPage.goToHomePage();

@@ -3,6 +3,7 @@ package tests;
 import com.github.javafaker.Faker;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
 import org.testng.annotations.*;
 import tests.model.HomePage;
 import tests.model.LoginPage;
@@ -40,7 +41,8 @@ public class LoginAndRegistrationTests {
         loginPage.loginUserWithError(notExistingUsername, password);
 
         //then
-        loginPage.assertThatThereIsAnError(notExistingUsername);
+        Assert.assertTrue(loginPage.getLoginErrorInformation().contains(notExistingUsername));
+        Assert.assertTrue(loginPage.getLoginErrorInformation().startsWith("Błąd"));
     }
 
 
@@ -53,7 +55,7 @@ public class LoginAndRegistrationTests {
 
         HomePage homePage = new HomePage(driver);
         LoginPage loginPage = homePage.goToMyAccount();
-        loginPage.closeBanner();
+        loginPage.tryToCloseBlueBanner();
 
         //when
         MyAccountPage myAccountPage = loginPage.registerUser(email, password);
@@ -76,7 +78,7 @@ public class LoginAndRegistrationTests {
         loginPage.registerUserWithWrongPassword(email, password);
 
         //then
-       loginPage.assertThatPasswordIsTooWeak();
+        Assert.assertTrue(loginPage.getErrorToWeakPassword().contains("Proszę wpisać mocniejsze hasło"));
     }
 
     @Test(testName = "New user registration fails when user is already registered")
@@ -87,7 +89,7 @@ public class LoginAndRegistrationTests {
 
         HomePage homePage = new HomePage(driver);
         LoginPage loginPage = homePage.goToMyAccount();
-        loginPage.closeBanner();
+        loginPage.tryToCloseBlueBanner();
         MyAccountPage myAccountPage = loginPage.registerUser(email, password);
         loginPage = myAccountPage.logOut();
 
@@ -95,6 +97,6 @@ public class LoginAndRegistrationTests {
         loginPage.registerDuplicateUser(email, password);
 
         //then
-        loginPage.assertThatRegistrationFails();
+        Assert.assertTrue(loginPage.getErrorAccountExist().startsWith("Błąd:"));
     }
 }

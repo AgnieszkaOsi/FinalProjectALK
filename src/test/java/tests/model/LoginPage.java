@@ -1,16 +1,16 @@
 package tests.model;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
 
 import java.time.Duration;
 
 public class LoginPage {
     private WebDriver driver;
-    private static final By MY_ACOUNT_HEADER = By.className("entry-title");
+    private static final By MY_ACCOUNT_HEADER = By.className("entry-title");
     private static final By BLUE_BANNER = By.xpath("//a[@href='#']");
     private static final By REGISTRATION_EMAIL_TEXTBOX = By.id("reg_email");
     private static final By REGISTRATION_PASSWORD_TEXTBOX = By.id("reg_password");
@@ -25,14 +25,27 @@ public class LoginPage {
 
     public LoginPage(WebDriver webDriver) {
         driver = webDriver;
-        Assert.assertTrue(driver.findElement(MY_ACOUNT_HEADER).getText().contains("Moje konto"));
+        var myAccountHeader = driver.findElement(MY_ACCOUNT_HEADER).getText();
+        if (!myAccountHeader.contains("Moje konto")) {
+            throw new IllegalStateException("This is not MyAccount Page," +
+                    " current page is: " + driver.getCurrentUrl());
+        }
     }
 
     public void loginUserWithError(String username, String password) {
         driver.findElement(LOGIN_USERNAME_TEXTBOX).sendKeys(username);
         driver.findElement(LOGIN_PASSWORD_TEXTBOX).sendKeys(password);
-        driver.findElement(BLUE_BANNER).click();
+        tryToCloseBlueBanner();
         driver.findElement(LOGIN_BUTTON).click();
+    }
+
+    public void tryToCloseBlueBanner() {
+        try {
+            new WebDriverWait(driver, Duration.ofSeconds(5)).until(ExpectedConditions.visibilityOfElementLocated(BLUE_BANNER));
+            driver.findElement(BLUE_BANNER).click();
+        } catch (StaleElementReferenceException bannerError) {
+            // ignored because blue banner was already clicked
+        }
     }
 
     public MyAccountPage loginUser(String username, String password) throws InterruptedException {
@@ -44,15 +57,10 @@ public class LoginPage {
         return new MyAccountPage(driver);
     }
 
-    public void assertThatThereIsAnError(String username) {
+    public String getLoginErrorInformation() {
         new WebDriverWait(driver, Duration.ofSeconds(5)).until(ExpectedConditions.visibilityOfElementLocated(LOGIN_ERROR_INFORMATION));
         var error = driver.findElement(LOGIN_ERROR_INFORMATION);
-        Assert.assertTrue(error.getText().contains(username));
-        Assert.assertTrue(error.getText().startsWith("Błąd"));
-    }
-
-    public void closeBanner() {
-        driver.findElement(BLUE_BANNER).click();
+        return error.getText();
     }
 
     public MyAccountPage registerUser(String email, String password) {
@@ -77,25 +85,25 @@ public class LoginPage {
         driver.findElement(REGISTRATION_EMAIL_TEXTBOX).click();
     }
 
-    public void assertThatPasswordIsTooWeak() {
+    public String getErrorToWeakPassword() {
         new WebDriverWait(driver, Duration.ofSeconds(3)).until(ExpectedConditions.visibilityOfElementLocated(ERROR_TOO_WEAK_PASSWORD));
         var error = driver.findElement(ERROR_TOO_WEAK_PASSWORD);
-        Assert.assertTrue(error.getText().contains("Proszę wpisać mocniejsze hasło"));
+        return error.getText();
     }
 
-    public void assertThatLoginIsVisible() {
-        var confirmation = driver.findElement(LOGIN_BUTTON);
-        Assert.assertTrue(confirmation.getText().startsWith("Zaloguj się"));
+    public String getLoginButton() {
+        var button = driver.findElement(LOGIN_BUTTON);
+        return button.getText();
     }
 
-    public void assertThatRegisterIsVisible() {
-        var confirmation = driver.findElement(REGISTRATION_BUTTON);
-        Assert.assertTrue(confirmation.getText().startsWith("Zarejestruj się"));
+    public String getRegistrationButton() {
+        var regButton = driver.findElement(REGISTRATION_BUTTON);
+        return regButton.getText();
     }
 
-    public void assertThatRegistrationFails() {
+    public String getErrorAccountExist() {
         new WebDriverWait(driver, Duration.ofSeconds(3)).until(ExpectedConditions.visibilityOfElementLocated(ERROR_ACCOUNT_EXIST));
-        var confirmation = driver.findElement(ERROR_ACCOUNT_EXIST);
-        Assert.assertTrue(confirmation.getText().startsWith("Błąd:"));
+        var errorAcc = driver.findElement(ERROR_ACCOUNT_EXIST);
+        return errorAcc.getText();
     }
 }

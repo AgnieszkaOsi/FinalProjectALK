@@ -2,10 +2,10 @@ package tests.model;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
 
 import java.time.Duration;
 
@@ -24,7 +24,11 @@ public class HomePage {
 
     public HomePage(WebDriver webDriver) {
         driver = webDriver;
-        Assert.assertTrue(driver.findElement(MAIN_PAGE_HEADER).getText().contains("Wybierz podróż dla siebie!"));
+        var mainPageHeader = driver.findElement(MAIN_PAGE_HEADER).getText();
+        if (!mainPageHeader.contains("Wybierz podróż dla siebie!")) {
+            throw new IllegalStateException("This is not Main Page," +
+                    " current page is: " + driver.getCurrentUrl());
+        }
     }
 
     public LoginPage goToMyAccount() {
@@ -52,10 +56,18 @@ public class HomePage {
     public SearchResultPage findProduct(String productToSearch) {
         driver.findElement(TEXTBOX_FINDER).sendKeys(productToSearch);
         driver.findElement(TEXTBOX_FINDER).sendKeys(Keys.ENTER);
-        new WebDriverWait(driver, Duration.ofSeconds(5)).until(ExpectedConditions.visibilityOfElementLocated(BLUE_BANNER));
-        driver.findElement(BLUE_BANNER).click();
+        tryToCloseBlueBanner();
 
         return new SearchResultPage(driver);
+    }
+
+    private void tryToCloseBlueBanner() {
+        try {
+            new WebDriverWait(driver, Duration.ofSeconds(5)).until(ExpectedConditions.visibilityOfElementLocated(BLUE_BANNER));
+            driver.findElement(BLUE_BANNER).click();
+        } catch (StaleElementReferenceException bannerError) {
+            // ignored because blue banner was already clicked
+        }
     }
 
     public ShopPage goToShop() {

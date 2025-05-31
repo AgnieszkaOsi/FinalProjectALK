@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -40,15 +41,15 @@ public class LogOutTests {
 
         HomePage homePage = new HomePage(driver);
         LoginPage loginPage = homePage.goToMyAccount();
-        loginPage.closeBanner();
+        loginPage.tryToCloseBlueBanner();
         MyAccountPage myAccountPage = loginPage.registerUser(email, password);
 
         //when
         loginPage = myAccountPage.logOut();
 
         //then
-        loginPage.assertThatLoginIsVisible();
-        loginPage.assertThatRegisterIsVisible();
+        Assert.assertTrue(loginPage.getLoginButton().startsWith("Zaloguj się"));
+        Assert.assertTrue(loginPage.getRegistrationButton().startsWith("Zarejestruj się"));
     }
 
     @Test(testName = "User can log in after log out")
@@ -60,7 +61,7 @@ public class LogOutTests {
 
         HomePage homePage = new HomePage(driver);
         LoginPage loginPage = homePage.goToMyAccount();
-        loginPage.closeBanner();
+        loginPage.tryToCloseBlueBanner();
         MyAccountPage myAccountPage = loginPage.registerUser(email, password);
         loginPage = myAccountPage.logOut();
 
