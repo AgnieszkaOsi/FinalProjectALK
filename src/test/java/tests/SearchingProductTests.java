@@ -23,7 +23,7 @@ public class SearchingProductTests {
         driver.quit();
     }
 
-    @Test(testName = "Searching product and checking description")
+    @Test(testName = "Searching product and checking description.")
     public void searchingProductAndCheckingDescription() {
         //given
         String productToSearch = "pilates";
@@ -38,7 +38,7 @@ public class SearchingProductTests {
         Assert.assertTrue(yogaAndPilatesDetailsPage.getYogaAndPilatesInSpainHeader().contains(productToSearch));
     }
 
-    @Test(testName = "Searching cheapest product in category 'Windsurfing'")
+    @Test(testName = "Searching cheapest product in category 'Windsurfing'.")
     public void searchingCheapestProduct() {
         //given
         HomePage homePage = new HomePage(driver);

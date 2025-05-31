@@ -1,0 +1,45 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Cart Suite" verbose="1">
+    <test name="Searching product and checking description.">
+        <classes>
+            <class name="tests.SearchingProductTests">
+                <methods>
+                    <include name="searchingProductAndCheckingDescription"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Searching cheapest product in category 'Windsurfing'.">
+        <classes>
+            <class name="tests.SearchingProductTests">
+                <methods>
+                    <include name="searchingCheapestProduct"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Adding two items to the cart and remove second of them.">
+        <classes>
+            <class name="tests.CartTests">
+                <methods>
+                    <include name="addingFirstItemToTheCart"/>
+                    <include name="addingSecondItemToTheCart"/>
+                    <include name="deleteProductFromTheCart"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Buying things from the cart.">
+        <classes>
+            <class name="tests.BuyingThingsFromTheCartTests">
+                <methods>
+                    <include name="buyingThingsFromTheCart"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+</suite>

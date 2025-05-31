@@ -20,19 +20,17 @@ public class CartPage {
 
     public CartPage(WebDriver webDriver) {
         driver = webDriver;
-        var cartPageHeader = driver.findElement(CART_PAGE_HEADER).getText();
-        if (!cartPageHeader.contains("Koszyk")) {
-            throw new IllegalStateException("This is not Cart Page," +
-                    " current page is: " + driver.getCurrentUrl());
-        }
+        new WebDriverWait(driver, Duration.ofSeconds(2)).until(ExpectedConditions.textToBePresentInElementLocated(CART_PAGE_HEADER, "Koszyk"));
     }
 
     public String getGreenIslandsProductName() {
+        new WebDriverWait(driver, Duration.ofSeconds(2)).until(ExpectedConditions.visibilityOfElementLocated(GREEN_ISLANDS_PRODUCT_NAME));
         var confirmationFirst = driver.findElement(GREEN_ISLANDS_PRODUCT_NAME);
         return confirmationFirst.getText();
     }
 
     public String getFerratyProductName() {
+        new WebDriverWait(driver, Duration.ofSeconds(2)).until(ExpectedConditions.visibilityOfElementLocated(FERRATY_PRODUCT_NAME));
         var confirmationSecond = driver.findElement(FERRATY_PRODUCT_NAME);
         return confirmationSecond.getText();
     }

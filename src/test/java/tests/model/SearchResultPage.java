@@ -14,11 +14,7 @@ public class SearchResultPage {
 
     public SearchResultPage(WebDriver webDriver) {
         driver = webDriver;
-        var searchResultsHeader = driver.findElement(SEARCH_RESULTS_HEADER).getText();
-        if (!searchResultsHeader.contains("Wyniki wyszukiwania")) {
-            throw new IllegalStateException("This is not Search Results Page," +
-                    " current page is: " + driver.getCurrentUrl());
-        }
+        new WebDriverWait(driver, Duration.ofSeconds(2)).until(ExpectedConditions.textToBePresentInElementLocated(SEARCH_RESULTS_HEADER, "Wyniki wyszukiwania"));
     }
 
     public DetailsPage goToYogaAndPilatesDetails() {

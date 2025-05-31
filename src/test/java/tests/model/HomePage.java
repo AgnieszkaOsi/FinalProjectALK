@@ -7,12 +7,11 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 
 public class HomePage {
-    private static final By MAIN_PAGE_HEADER = By.className("entry-header");
+    private static final By PAGE_HEADER = By.className("entry-header");
     private static final By MY_ACCOUNT_BUTTON = By.cssSelector("#menu-item-201");
     private static final By WINDSURFING_CATEGORY_IMAGE = By.xpath("//a[@aria-label='Przejdź do kategorii produktu Windsurfing']");
     private static final By CLIMBING_CATEGORY_PAGE = By.xpath("//a[@aria-label='Przejdź do kategorii produktu Wspinaczka']");
     private static final By CART_BUTTON = By.id("menu-item-200");
-    private static final By GREEN_ISLANDS_PRODUCT_NAME = By.xpath("(//a[@href='https://fakestore.testelka.pl/product/wyspy-zielonego-przyladka-sal/'])[2]");
     private static final By TEXTBOX_FINDER = By.cssSelector("[class='search-field']");
     private static final By BLUE_BANNER = By.className("woocommerce-store-notice__dismiss-link");
     private static final By SHOP_BUTTON = By.cssSelector("#menu-item-198 > a");
@@ -21,7 +20,7 @@ public class HomePage {
 
     public HomePage(WebDriver webDriver) {
         driver = webDriver;
-        var mainPageHeader = driver.findElement(MAIN_PAGE_HEADER).getText();
+        var mainPageHeader = driver.findElement(PAGE_HEADER).getText();
         if (!mainPageHeader.contains("Wybierz podróż dla siebie!")) {
             throw new IllegalStateException("This is not Main Page," +
                     " current page is: " + driver.getCurrentUrl());
@@ -54,8 +53,6 @@ public class HomePage {
 
     public CartPage goToCart() {
         driver.findElement(CART_BUTTON).click();
-        new WebDriverWait(driver, Duration.ofSeconds(3)).until(ExpectedConditions.visibilityOfElementLocated(GREEN_ISLANDS_PRODUCT_NAME));
-
         return new CartPage(driver);
     }
 

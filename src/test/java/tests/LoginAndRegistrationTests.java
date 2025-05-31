@@ -28,7 +28,7 @@ public class LoginAndRegistrationTests {
         driver.quit();
     }
 
-    @Test(testName = "Should Not Allow Unregister User To Login")
+    @Test(testName = "Should Not Allow Unregister User To Login.")
     public void shouldNotAllowUnregisterUserToLogin() {
         //given
         String notExistingUsername = faker.name().username();
@@ -45,7 +45,7 @@ public class LoginAndRegistrationTests {
         Assert.assertTrue(loginPage.getLoginErrorInformation().startsWith("Błąd"));
     }
 
-    @Test(testName = "New user registration")
+    @Test(testName = "New user registration.")
     public void newUserRegistration() {
         //given
         String email = faker.internet().emailAddress();
@@ -63,7 +63,7 @@ public class LoginAndRegistrationTests {
         Assert.assertTrue(myAccountPage.getHelloUserText().contains(expectedUsername));
     }
 
-    @Test(testName = "New user registration fails when password is too short")
+    @Test(testName = "New user registration fails when password is too short.")
     public void newUserRegistrationFailsWhenPasswordIsTooShort() {
         //given
         String email = faker.internet().emailAddress();
@@ -79,7 +79,7 @@ public class LoginAndRegistrationTests {
         Assert.assertTrue(loginPage.getErrorToWeakPassword().contains("Proszę wpisać mocniejsze hasło"));
     }
 
-    @Test(testName = "New user registration fails when user is already registered")
+    @Test(testName = "New user registration fails when user is already registered.")
     public void newUserRegistrationFailsWhenUserIsAlreadyRegistered() {
         //given
         String email = faker.internet().emailAddress();

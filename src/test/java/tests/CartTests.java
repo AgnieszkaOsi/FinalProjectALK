@@ -68,7 +68,7 @@ public class CartTests {
         Assert.assertTrue(cartPage.getFerratyProductName().startsWith("Wspinaczka"));
     }
 
-    @Test(testName = "Delete product from the cart")
+    @Test(testName = "Delete product from the cart.")
     public void deleteProductFromTheCart() {
         //given
         driver.get("https://fakestore.testelka.pl");

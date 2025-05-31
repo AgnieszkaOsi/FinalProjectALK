@@ -33,7 +33,7 @@ public class LogOutTests {
         driver.quit();
     }
 
-    @Test(testName = "Log out user")
+    @Test(testName = "Log out user.")
     public void logOutUser() {
         //given
         String email = faker.internet().emailAddress();
@@ -51,7 +51,7 @@ public class LogOutTests {
         Assert.assertTrue(loginPage.getRegistrationButton().startsWith("Zarejestruj się"));
     }
 
-    @Test(testName = "User can log in after log out")
+    @Test(testName = "User can log in after log out.")
     public void userCanLoginAfterLogOut() {
         //given
         String email = faker.internet().emailAddress();
