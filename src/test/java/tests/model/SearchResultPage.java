@@ -21,10 +21,10 @@ public class SearchResultPage {
         }
     }
 
-    public YogaAndPilatesDetailsPage goToYogaAndPilatesDetails() {
+    public DetailsPage goToYogaAndPilatesDetails() {
         new WebDriverWait(driver, Duration.ofSeconds(5)).until(ExpectedConditions.visibilityOfElementLocated(YOGA_AND_PILATES_IN_SPAIN_IMAGE));
         driver.findElement(YOGA_AND_PILATES_IN_SPAIN_IMAGE).click();
 
-        return new YogaAndPilatesDetailsPage(driver);
+        return new DetailsPage(driver, DetailsPage.YOGA_AND_PILATES);
     }
 }

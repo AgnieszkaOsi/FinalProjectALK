@@ -32,7 +32,7 @@ public class SearchingProductTests {
 
         //when
         SearchResultPage searchResultPage = homePage.findProduct(productToSearch);
-        YogaAndPilatesDetailsPage yogaAndPilatesDetailsPage = searchResultPage.goToYogaAndPilatesDetails();
+        DetailsPage yogaAndPilatesDetailsPage = searchResultPage.goToYogaAndPilatesDetails();
 
         //then
         Assert.assertTrue(yogaAndPilatesDetailsPage.getYogaAndPilatesInSpainDescription().startsWith("Opis\nTake a caulk"));
