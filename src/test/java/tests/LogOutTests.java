@@ -34,7 +34,7 @@ public class LogOutTests {
     }
 
     @Test(testName = "Log out user")
-    public void logOutUser() throws InterruptedException {
+    public void logOutUser() {
         //given
         String email = faker.internet().emailAddress();
         String password = faker.internet().password(12, 14);
@@ -53,7 +53,7 @@ public class LogOutTests {
     }
 
     @Test(testName = "User can log in after log out")
-    public void userCanLoginAfterLogOut() throws InterruptedException {
+    public void userCanLoginAfterLogOut() {
         //given
         String email = faker.internet().emailAddress();
         String password = faker.internet().password(12, 14);

@@ -67,7 +67,7 @@ public class LoginAndRegistrationTests {
 
 
     @Test(testName = "New user registration fails when password is too short")
-    public void newUserRegistrationFailsWhenPasswordIsTooShort() throws InterruptedException {
+    public void newUserRegistrationFailsWhenPasswordIsTooShort() {
         //given
         String email = faker.internet().emailAddress();
         String password = faker.internet().password(4, 5);
@@ -83,7 +83,7 @@ public class LoginAndRegistrationTests {
     }
 
     @Test(testName = "New user registration fails when user is already registered")
-    public void newUserRegistrationFailsWhenUserIsAlreadyRegistered() throws InterruptedException {
+    public void newUserRegistrationFailsWhenUserIsAlreadyRegistered() {
         //given
         String email = faker.internet().emailAddress();
         String password = faker.internet().password(12, 14);

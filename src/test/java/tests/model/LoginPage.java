@@ -10,7 +10,6 @@ import java.time.Duration;
 
 public class LoginPage {
     private WebDriver driver;
-    private static final By MY_ACCOUNT_HEADER = By.className("entry-title");
     private static final By BLUE_BANNER = By.xpath("//a[@href='#']");
     private static final By REGISTRATION_EMAIL_TEXTBOX = By.id("reg_email");
     private static final By REGISTRATION_PASSWORD_TEXTBOX = By.id("reg_password");
@@ -25,11 +24,7 @@ public class LoginPage {
 
     public LoginPage(WebDriver webDriver) {
         driver = webDriver;
-        var myAccountHeader = driver.findElement(MY_ACCOUNT_HEADER).getText();
-        if (!myAccountHeader.contains("Moje konto")) {
-            throw new IllegalStateException("This is not MyAccount Page," +
-                    " current page is: " + driver.getCurrentUrl());
-        }
+        new WebDriverWait(driver, Duration.ofSeconds(2)).until(ExpectedConditions.textToBePresentInElementLocated(REGISTRATION_BUTTON, "Zarejestruj się"));
     }
 
     public void loginUserWithError(String username, String password) {
@@ -48,11 +43,10 @@ public class LoginPage {
         }
     }
 
-    public MyAccountPage loginUser(String username, String password) throws InterruptedException {
+    public MyAccountPage loginUser(String username, String password) {
         driver.findElement(LOGIN_USERNAME_TEXTBOX).sendKeys(username);
         driver.findElement(LOGIN_PASSWORD_TEXTBOX).sendKeys(password);
         driver.findElement(By.name("login")).click();
-        Thread.sleep(1000);
 
         return new MyAccountPage(driver);
     }
@@ -78,11 +72,10 @@ public class LoginPage {
         driver.findElement(REGISTRATION_BUTTON).click();
     }
 
-    public void registerUserWithWrongPassword(String email, String password) throws InterruptedException {
+    public void registerUserWithWrongPassword(String email, String password) {
         driver.findElement(REGISTRATION_EMAIL_TEXTBOX).sendKeys(email);
         driver.findElement(REGISTRATION_PASSWORD_TEXTBOX).sendKeys(password);
-        Thread.sleep(500);
-        driver.findElement(REGISTRATION_EMAIL_TEXTBOX).click();
+        new WebDriverWait(driver, Duration.ofSeconds(2)).until(ExpectedConditions.elementToBeClickable(REGISTRATION_EMAIL_TEXTBOX)).click();
     }
 
     public String getErrorToWeakPassword() {
