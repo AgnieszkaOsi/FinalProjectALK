@@ -46,7 +46,7 @@ public class SearchingProductTests {
 
         //when
         ShopPage shopPage = homePage.goToShop();
-        WindsurfingCategoryPage windsurfingCategoryPage = shopPage.goToWindsurfingPage();
+        CategoryPage windsurfingCategoryPage = shopPage.goToWindsurfingPage();
         windsurfingCategoryPage.selectSortingByPrice();
 
         //then

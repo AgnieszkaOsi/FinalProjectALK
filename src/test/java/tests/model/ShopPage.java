@@ -17,8 +17,8 @@ public class ShopPage {
         }
     }
 
-    public WindsurfingCategoryPage goToWindsurfingPage() {
+    public CategoryPage goToWindsurfingPage() {
         driver.findElement(WINDSURFING_IMAGE).click();
-        return new WindsurfingCategoryPage(driver);
+        return new CategoryPage(driver, CategoryPage.WINDSURFING);
     }
 }

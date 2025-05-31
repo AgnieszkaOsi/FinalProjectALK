@@ -36,14 +36,14 @@ public class HomePage {
         return new LoginPage(driver);
     }
 
-    public WindsurfingCategoryPage goToWindsurfingCategory() {
+    public CategoryPage goToWindsurfingCategory() {
         driver.findElement(WINDSURFING_CATEGORY_IMAGE).click();
-        return new WindsurfingCategoryPage(driver);
+        return new CategoryPage(driver, CategoryPage.WINDSURFING);
     }
 
-    public ClimbingCategoryPage goToClimbingCategory() {
+    public CategoryPage goToClimbingCategory() {
         driver.findElement(CLIMBING_CATEGORY_PAGE).click();
-        return new ClimbingCategoryPage(driver);
+        return new CategoryPage(driver, CategoryPage.CLIMBING);
     }
 
     public CartPage goToCart() {

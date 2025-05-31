@@ -45,8 +45,8 @@ public class CartTests {
         HomePage homePage = registerUser();
 
         // when
-        WindsurfingCategoryPage windsurfingCategoryPage = homePage.goToWindsurfingCategory();
-        windsurfingCategoryPage.addToCart();
+        CategoryPage windsurfingCategoryPage = homePage.goToWindsurfingCategory();
+        windsurfingCategoryPage.addGreenIslandsToCart();
 
         //then
         CartPage cartPage = windsurfingCategoryPage.goToCart();
@@ -60,8 +60,8 @@ public class CartTests {
         HomePage homePage = new HomePage(driver);
 
         // when
-        ClimbingCategoryPage climbingCategoryPage = homePage.goToClimbingCategory();
-        climbingCategoryPage.addToCart();
+        CategoryPage climbingCategoryPage = homePage.goToClimbingCategory();
+        climbingCategoryPage.addFerratyToCart();
 
         //then
         CartPage cartPage = climbingCategoryPage.goToCart();
