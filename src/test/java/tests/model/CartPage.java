@@ -13,32 +13,36 @@ public class CartPage {
     private static final By FERRATY_PRODUCT_NAME = By.xpath("(//a[@href='https://fakestore.testelka.pl/product/wspinaczka-via-ferraty/'])[2]");
     private static final By DELETED_ISLANDS_BUTTON = By.cssSelector("[aria-label='Usuń Wyspy Zielonego Przylądka - Sal z koszyka']");
     private static final By ISLANDS_REMOVED_CONFIRMATION = By.className("woocommerce-message");
+    private static final By CART_PAGE_HEADER = By.className("entry-header");
 
     private WebDriver driver;
 
     public CartPage(WebDriver webDriver) {
         driver = webDriver;
-        Assert.assertTrue(driver.findElement(By.className("entry-header")).getText().contains("Koszyk"));
+        var cartPageHeader = driver.findElement(CART_PAGE_HEADER).getText();
+        if (!cartPageHeader.contains("Koszyk")) {
+            throw new IllegalStateException("This is not Cart Page," +
+                    " current page is: " + driver.getCurrentUrl());
+        }
     }
 
-    public void assertThatIslandsAreInTheCart() {
+    public String getGreenIslandsProductName() {
         var confirmationFirst = driver.findElement(GREEN_ISLANDS_PRODUCT_NAME);
-        Assert.assertTrue(confirmationFirst.getText().startsWith("Wyspy"));
+        return confirmationFirst.getText();
     }
 
-    public void asserThatClimbingIsInTheCart() {
+    public String getFerratyProductName() {
         var confirmationSecond = driver.findElement(FERRATY_PRODUCT_NAME);
-        Assert.assertTrue(confirmationSecond.getText().startsWith("Wspinaczka"));
+        return confirmationSecond.getText();
     }
 
     public void deleteIslandItemFromTheCart() {
         driver.findElement(DELETED_ISLANDS_BUTTON).click();
     }
 
-    public void assertThatIslandsAreNotInTheCart() {
+    public String getIslandsRemovedConfirmation() {
         new WebDriverWait(driver, Duration.ofSeconds(5)).until(ExpectedConditions.visibilityOfElementLocated(ISLANDS_REMOVED_CONFIRMATION));
         var confirmation = driver.findElement(ISLANDS_REMOVED_CONFIRMATION);
-        Assert.assertTrue(confirmation.getText().contains("Wyspy"));
-        Assert.assertTrue(confirmation.getText().startsWith("Usunięto"));
+        return confirmation.getText();
     }
 }

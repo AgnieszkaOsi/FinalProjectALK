@@ -3,6 +3,7 @@ package tests;
 import com.github.javafaker.Faker;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
 import org.testng.annotations.*;
 import tests.model.*;
 
@@ -49,7 +50,7 @@ public class CartTests {
 
         //then
         CartPage cartPage = windsurfingCategoryPage.goToCart();
-        cartPage.assertThatIslandsAreInTheCart();
+        Assert.assertTrue(cartPage.getGreenIslandsProductName().startsWith("Wyspy"));
     }
 
     @Test(testName = "Addind second item to the cart.")
@@ -64,8 +65,8 @@ public class CartTests {
 
         //then
         CartPage cartPage = climbingCategoryPage.goToCart();
-        cartPage.assertThatIslandsAreInTheCart();
-        cartPage.asserThatClimbingIsInTheCart();
+        Assert.assertTrue(cartPage.getGreenIslandsProductName().startsWith("Wyspy"));
+        Assert.assertTrue(cartPage.getFerratyProductName().startsWith("Wspinaczka"));
     }
 
 
@@ -80,7 +81,8 @@ public class CartTests {
         cartPage.deleteIslandItemFromTheCart();
 
         //then
-        cartPage.asserThatClimbingIsInTheCart();
-        cartPage.assertThatIslandsAreNotInTheCart();
+        Assert.assertTrue(cartPage.getFerratyProductName().startsWith("Wspinaczka"));
+        Assert.assertTrue(cartPage.getIslandsRemovedConfirmation().contains("Wyspy"));
+        Assert.assertTrue(cartPage.getIslandsRemovedConfirmation().startsWith("Usunięto"));
     }
 }
