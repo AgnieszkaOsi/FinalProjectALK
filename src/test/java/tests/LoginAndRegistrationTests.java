@@ -61,7 +61,8 @@ public class LoginAndRegistrationTests {
         MyAccountPage myAccountPage = loginPage.registerUser(email, password);
 
         //then
-        myAccountPage.assertThatConfirmationIsVisible(expectedUsername);
+        Assert.assertTrue(myAccountPage.getHelloUserText().startsWith("Witaj"));
+        Assert.assertTrue(myAccountPage.getHelloUserText().contains(expectedUsername));
     }
 
 

@@ -69,6 +69,7 @@ public class LogOutTests {
         myAccountPage = loginPage.loginUser(email, password);
 
         //then
-        myAccountPage.assertThatConfirmationIsVisible(expectedUsername);
+        Assert.assertTrue(myAccountPage.getHelloUserText().startsWith("Witaj"));
+        Assert.assertTrue(myAccountPage.getHelloUserText().contains(expectedUsername));
     }
 }
