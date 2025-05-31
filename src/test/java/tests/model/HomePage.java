@@ -1,9 +1,6 @@
 package tests.model;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -29,13 +26,13 @@ public class HomePage {
             throw new IllegalStateException("This is not Main Page," +
                     " current page is: " + driver.getCurrentUrl());
         }
+        tryToCloseBlueBanner();
     }
 
-    public void tryToCloseBlueBanner() {
+    private void tryToCloseBlueBanner() {
         try {
-            new WebDriverWait(driver, Duration.ofSeconds(5)).until(ExpectedConditions.visibilityOfElementLocated(BLUE_BANNER));
             driver.findElement(BLUE_BANNER).click();
-        } catch (StaleElementReferenceException bannerError) {
+        } catch (StaleElementReferenceException | ElementNotInteractableException bannerError) {
             // ignored because blue banner was already clicked
         }
     }
@@ -65,7 +62,6 @@ public class HomePage {
     public SearchResultPage findProduct(String productToSearch) {
         driver.findElement(TEXTBOX_FINDER).sendKeys(productToSearch);
         driver.findElement(TEXTBOX_FINDER).sendKeys(Keys.ENTER);
-        tryToCloseBlueBanner();
 
         return new SearchResultPage(driver);
     }

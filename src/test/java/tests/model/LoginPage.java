@@ -1,7 +1,6 @@
 package tests.model;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -10,7 +9,6 @@ import java.time.Duration;
 
 public class LoginPage {
     private WebDriver driver;
-    private static final By BLUE_BANNER = By.xpath("//a[@href='#']");
     private static final By REGISTRATION_EMAIL_TEXTBOX = By.id("reg_email");
     private static final By REGISTRATION_PASSWORD_TEXTBOX = By.id("reg_password");
     private static final By REGISTRATION_BUTTON = By.name("register");
@@ -30,17 +28,7 @@ public class LoginPage {
     public void loginUserWithError(String username, String password) {
         driver.findElement(LOGIN_USERNAME_TEXTBOX).sendKeys(username);
         driver.findElement(LOGIN_PASSWORD_TEXTBOX).sendKeys(password);
-        tryToCloseBlueBanner();
         driver.findElement(LOGIN_BUTTON).click();
-    }
-
-    public void tryToCloseBlueBanner() {
-        try {
-            new WebDriverWait(driver, Duration.ofSeconds(5)).until(ExpectedConditions.visibilityOfElementLocated(BLUE_BANNER));
-            driver.findElement(BLUE_BANNER).click();
-        } catch (StaleElementReferenceException bannerError) {
-            // ignored because blue banner was already clicked
-        }
     }
 
     public MyAccountPage loginUser(String username, String password) {

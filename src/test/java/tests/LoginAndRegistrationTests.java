@@ -54,7 +54,6 @@ public class LoginAndRegistrationTests {
 
         HomePage homePage = new HomePage(driver);
         LoginPage loginPage = homePage.goToMyAccount();
-        loginPage.tryToCloseBlueBanner();
 
         //when
         MyAccountPage myAccountPage = loginPage.registerUser(email, password);
@@ -88,7 +87,6 @@ public class LoginAndRegistrationTests {
 
         HomePage homePage = new HomePage(driver);
         LoginPage loginPage = homePage.goToMyAccount();
-        loginPage.tryToCloseBlueBanner();
         MyAccountPage myAccountPage = loginPage.registerUser(email, password);
         loginPage = myAccountPage.logOut();
 

@@ -41,7 +41,6 @@ public class LogOutTests {
 
         HomePage homePage = new HomePage(driver);
         LoginPage loginPage = homePage.goToMyAccount();
-        loginPage.tryToCloseBlueBanner();
         MyAccountPage myAccountPage = loginPage.registerUser(email, password);
 
         //when
@@ -61,7 +60,6 @@ public class LogOutTests {
 
         HomePage homePage = new HomePage(driver);
         LoginPage loginPage = homePage.goToMyAccount();
-        loginPage.tryToCloseBlueBanner();
         MyAccountPage myAccountPage = loginPage.registerUser(email, password);
         loginPage = myAccountPage.logOut();
 

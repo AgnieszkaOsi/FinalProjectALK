@@ -30,7 +30,6 @@ public class BuyingThingsFromTheCartTests {
         String password = faker.internet().password(12, 14);
         HomePage homePage = new HomePage(driver);
         LoginPage loginPage = homePage.goToMyAccount();
-        loginPage.tryToCloseBlueBanner();
         loginPage.registerUser(email, password);
     }
 
