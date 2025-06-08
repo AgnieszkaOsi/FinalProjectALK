@@ -34,7 +34,7 @@ public class LoginPage {
     public MyAccountPage loginUser(String username, String password) {
         driver.findElement(LOGIN_USERNAME_TEXTBOX).sendKeys(username);
         driver.findElement(LOGIN_PASSWORD_TEXTBOX).sendKeys(password);
-        driver.findElement(By.name("login")).click();
+        driver.findElement(LOGIN_BUTTON).click();
 
         return new MyAccountPage(driver);
     }
